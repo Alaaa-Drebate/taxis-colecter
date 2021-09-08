@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -106,7 +107,7 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton(
                 onPressed: _submitTransaction,
                 child: Text('Add Transaction'),
