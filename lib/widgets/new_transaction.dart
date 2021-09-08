@@ -25,7 +25,7 @@ class _NewTransactionState extends State<NewTransaction> {
     final number = num.tryParse(string);
 
     if (number == null) {
-      return true;
+      return false;
     }
 
     return true;
