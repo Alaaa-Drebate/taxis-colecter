@@ -22,7 +22,7 @@ class _NewTransactionState extends State<NewTransaction> {
     if (string == null || string.isEmpty) {
       return false;
     }
-    
+
     final number = num.tryParse(string);
 
     if (number == null) {
@@ -62,35 +62,37 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(10),
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              controller: titleController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Amount',
+    return SingleChildScrollView(
+      child: Card(
+        margin: EdgeInsets.only(left: 10, top: 10, right: 10, bottom:MediaQuery.of(context).viewInsets.bottom+10),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                controller: titleController,
               ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              controller: amountController,
-              onSubmitted: (_) => _submitTransaction(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _timePicked == null
-                          ? 'No date chosen !!'
-                          : 'Picked date : ${DateFormat.yMd().format(_timePicked!)}'),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                controller: amountController,
+                onSubmitted: (_) => _submitTransaction(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                          _timePicked == null
+                              ? 'No date chosen !!'
+                              : 'Picked date : ${DateFormat.yMd().format(
+                              _timePicked!)}'),
                     ),
-                  Container(
+                    Container(
                       alignment: Alignment.centerRight,
                       child: TextButton.icon(
                         onPressed: _selectDate,
@@ -103,19 +105,20 @@ class _NewTransactionState extends State<NewTransaction> {
                         icon: Icon(Icons.access_time),
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: ElevatedButton(
-                onPressed: _submitTransaction,
-                child: Text('Add Transaction'),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: ElevatedButton(
+                  onPressed: _submitTransaction,
+                  child: Text('Add Transaction'),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          margin: EdgeInsets.all(10),
         ),
-        margin: EdgeInsets.all(10),
       ),
     );
   }

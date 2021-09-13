@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:taxis_colecter/widgets/transaction_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -7,66 +7,42 @@ class TransactionList extends StatelessWidget {
   final Function removeItem;
 
   //Constructor
-  TransactionList(this.transaction,this.removeItem);
+  TransactionList(this.transaction, this.removeItem);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      child: transaction.isEmpty
-          ? Column(
+    return transaction.isEmpty
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '  Ops the transactions is empty..!!',
-                  style: Theme.of(context).textTheme.headline6,
+                Container(
+                  height: constraints.maxHeight * 0.2,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    '  Ops the transactions is empty..!!',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: constraints.maxHeight * 0.1,
                 ),
                 Container(
-                  height: 250,
+                  alignment: Alignment.center,
+                  height: constraints.maxHeight * 0.6,
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
                 )
               ],
-            )
-          : ListView.builder(
-              itemCount: transaction.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 7, horizontal: 5),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: FittedBox(
-                        child: Text(
-                          '\$${transaction[index].amount}',
-                        ),
-                      ),
-                    ),
-                    title: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text('${transaction[index].title}'),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        DateFormat.yMMMd().format(transaction[index].date),
-                      ),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete_forever_rounded),
-                      onPressed:()=>removeItem(index),
-                      color: Theme.of(context).errorColor,
-                    ),
-                  ),
-                );
-              },
-            ),
-    );
+            );
+          })
+        : ListView.builder(
+            itemCount: transaction.length,
+            itemBuilder: (context, index) {
+              return TransactionItem(transaction[index],removeItem(index));
+            },
+          );
   }
 }
